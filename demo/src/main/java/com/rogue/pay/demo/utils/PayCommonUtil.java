@@ -198,10 +198,10 @@ public class PayCommonUtil {
      * @Date 8:53 2019/2/2
      * @Param requestUrl requestMethod outputStr
      **/
-    public static String httpsRequest2(String requestUrl, String requestMethod, String outputStr) throws Exception {
+    public static String httpsRequest2(String requestUrl, String outputStr) throws Exception {
         KeyStore keyStore  = KeyStore.getInstance("PKCS12");
         StringBuilder res = new StringBuilder("");
-        FileInputStream instream = new FileInputStream(new File("/home/apiclient_cert.p12"));
+        FileInputStream instream = new FileInputStream(new File(WeChatUtil.KEYSTORE_URL));
         try {
             keyStore.load(instream, "".toCharArray());
         } finally {
@@ -210,7 +210,7 @@ public class PayCommonUtil {
 
         // Trust own CA and all self-signed certs
         SSLContext sslcontext = SSLContexts.custom()
-                .loadKeyMaterial(keyStore, "1313329201".toCharArray())
+                .loadKeyMaterial(keyStore, WeChatUtil.MCHID.toCharArray())
                 .build();
         // Allow TLSv1 protocol only
         SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
